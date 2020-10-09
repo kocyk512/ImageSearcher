@@ -20,6 +20,8 @@ class PixbayViewModel @ViewModelInject constructor(
         currentQuery.value = query
     }
 
+    val footerHeaderRefreshClickS = MutableLiveData<Unit>()
+
     companion object {
         private const val DEFAULT_QUERY = "cats"
     }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.example.imagesearcher.PixbayViewModel
 import com.example.imagesearcher.R
 import com.example.imagesearcher.databinding.FragmentGalleryBinding
@@ -26,12 +25,21 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
         binding.apply {
             recyclerView.setHasFixedSize(true)
-            recyclerView.adapter = adapter
+            recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+                header = PixbayLoadStateAdapter(viewModel.footerHeaderRefreshClickS),
+                footer = PixbayLoadStateAdapter(viewModel.footerHeaderRefreshClickS)
+            )
         }
 
-        viewModel.photos.observe(viewLifecycleOwner, Observer {
-            adapter.submitData(viewLifecycleOwner.lifecycle, it)
-        })
+        viewModel.photos
+            .subscribe(viewLifecycleOwner) {
+                adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            }
+
+        viewModel.footerHeaderRefreshClickS
+            .subscribe(viewLifecycleOwner) {
+                adapter.retry()
+            }
     }
 
     override fun onDestroy() {
