@@ -1,6 +1,7 @@
 package com.example.imagesearcher.di
 
 import com.example.imagesearcher.api.PixbayApi
+import com.example.imagesearcher.ui.PixbayPhotoAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,4 +40,7 @@ object AppModule {
     fun providePixbayApi(retrofit: Retrofit): PixbayApi =
         retrofit.create(PixbayApi::class.java)
 
+    @Provides
+    @Singleton
+    fun provideAdapter(): PixbayPhotoAdapter = PixbayPhotoAdapter()
 }

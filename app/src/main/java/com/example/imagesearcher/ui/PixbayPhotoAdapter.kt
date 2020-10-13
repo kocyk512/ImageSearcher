@@ -10,8 +10,11 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.imagesearcher.R
 import com.example.imagesearcher.data.PixbayPhoto
 import com.example.imagesearcher.databinding.ItemPixbayPhotoBinding
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PixbayPhotoAdapter :
+@Singleton
+class PixbayPhotoAdapter @Inject constructor():
     PagingDataAdapter<PixbayPhoto, PixbayPhotoAdapter.PixbayViewHolder>(PHOTO_DIFF_UTIL) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PixbayViewHolder {

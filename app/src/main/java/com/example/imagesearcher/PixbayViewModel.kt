@@ -21,6 +21,7 @@ class PixbayViewModel @ViewModelInject constructor(
     }
 
     val footerHeaderRefreshClickS = MutableLiveData<Unit>()
+    val retryClickS = MutableLiveData<Unit>()
 
     companion object {
         private const val DEFAULT_QUERY = "cats"
