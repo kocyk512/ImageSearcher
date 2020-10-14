@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.imagesearcher.PixbayViewModel
 import com.example.imagesearcher.R
-import com.example.imagesearcher.data.PixbayPhoto
+import com.example.imagesearcher.data.remote.PixbayPhoto
 import com.example.imagesearcher.databinding.FragmentGalleryBinding
 import com.jakewharton.rxbinding4.appcompat.queryTextChanges
 import com.jakewharton.rxbinding4.view.clicks

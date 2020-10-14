@@ -1,4 +1,4 @@
-package com.example.imagesearcher.data
+package com.example.imagesearcher.data.remote
 
 import androidx.paging.PagingSource
 import com.example.imagesearcher.api.PixbayApi

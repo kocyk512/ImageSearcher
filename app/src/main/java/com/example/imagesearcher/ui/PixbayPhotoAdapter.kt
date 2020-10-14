@@ -1,5 +1,6 @@
 package com.example.imagesearcher.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -8,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.imagesearcher.R
-import com.example.imagesearcher.data.PixbayPhoto
+import com.example.imagesearcher.data.remote.PixbayPhoto
 import com.example.imagesearcher.databinding.ItemPixbayPhotoBinding
+import kotlinx.android.synthetic.main.fragment_details.view.image_view_main
+import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -43,7 +46,7 @@ class PixbayPhotoAdapter @Inject constructor() :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.root.setOnClickListener {
+            binding.root.image_view_main.setOnClickListener {
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
@@ -51,6 +54,9 @@ class PixbayPhotoAdapter @Inject constructor() :
                         listener?.onItemClick(item)
                     }
                 }
+            }
+            binding.root.floating_button.setOnClickListener {
+                Log.d("KK", "Floating button click")
             }
         }
 

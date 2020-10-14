@@ -1,4 +1,4 @@
-package com.example.imagesearcher.data
+package com.example.imagesearcher.data.remote
 
 
 import android.os.Parcelable

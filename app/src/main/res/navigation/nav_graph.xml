@@ -21,6 +21,6 @@
         tools:layout="@layout/fragment_details">
         <argument
             android:name="photo"
-            app:argType="com.example.imagesearcher.data.PixbayPhoto" />
+            app:argType="com.example.imagesearcher.data.remote.PixbayPhoto" />
     </fragment>
 </navigation>

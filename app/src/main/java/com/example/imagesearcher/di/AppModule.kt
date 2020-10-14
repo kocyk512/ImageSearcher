@@ -1,11 +1,16 @@
 package com.example.imagesearcher.di
 
+import android.content.Context
+import androidx.room.Room
+import com.example.imagesearcher.DATABASE_NAME
 import com.example.imagesearcher.api.PixbayApi
+import com.example.imagesearcher.data.local.PixbayDatabase
 import com.example.imagesearcher.ui.PixbayPhotoAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -43,4 +48,15 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAdapter(): PixbayPhotoAdapter = PixbayPhotoAdapter()
+
+    @Singleton
+    @Provides
+    fun provideDatabase(
+        @ApplicationContext context: Context
+    ) = Room.databaseBuilder(context, PixbayDatabase::class.java, DATABASE_NAME)
+        .build()
+
+    @Singleton
+    @Provides
+    fun providePixbayDao(database: PixbayDatabase) = database.pixbayDao()
 }

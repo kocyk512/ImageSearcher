@@ -79,6 +79,14 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
+    //CardView
+    implementation "androidx.cardview:cardview:1.0.0"
+
+    // Room
+    implementation "androidx.room:room-runtime:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.5"
+    // Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:2.2.5"
 
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-beta01"
@@ -96,4 +104,15 @@ dependencies {
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
     implementation 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0'
     implementation 'com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0'
+
+    //Truth
+    testImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation "com.google.truth:truth:1.0.1"
+
+    //Test executor for testing Architecture components
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    //Coroutines for tests
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
+
 }
