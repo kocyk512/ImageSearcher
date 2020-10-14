@@ -1,6 +1,7 @@
 package com.example.imagesearcher.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -88,17 +89,15 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), PixbayPhotoAdapter.
         retryClickS.subscribe(viewLifecycleOwner) {
             pixbayPhotoAdapter.retry()
         }
-//        itemClickS.subscribe(viewLifecycleOwner) { position ->
-//            pixbayPhotoAdapter.getItemByPosition(position)?.let { photo ->
-//                val action = GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(photo)
-//                findNavController().navigate(action)
-//            }
-//        }
     }
+
     override fun onItemClick(photo: PixbayPhoto) {
         val action = GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(photo)
         findNavController().navigate(action)
     }
+
+    override fun onFavouriteClick(photo: PixbayPhoto) = viewModel.insertPhoto(photo)
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu, menu)

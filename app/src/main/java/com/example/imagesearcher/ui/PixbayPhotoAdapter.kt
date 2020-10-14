@@ -36,6 +36,7 @@ class PixbayPhotoAdapter @Inject constructor() :
 
     interface OnItemClickListener {
         fun onItemClick(photo: PixbayPhoto)
+        fun onFavouriteClick(photo: PixbayPhoto)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -46,18 +47,19 @@ class PixbayPhotoAdapter @Inject constructor() :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.root.image_view_main.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val item = getItem(position)
-                    if (item != null) {
-                        listener?.onItemClick(item)
-                    }
+            with(binding.root) {
+                image_view_main.setOnClickListener {
+                    getCurrentItem()?.let { listener?.onItemClick(it) }
+                }
+                floating_button.setOnClickListener {
+                    getCurrentItem()?.let { listener?.onFavouriteClick(it) }
                 }
             }
-            binding.root.floating_button.setOnClickListener {
-                Log.d("KK", "Floating button click")
-            }
+        }
+
+        private fun getCurrentItem(): PixbayPhoto? {
+            val position = bindingAdapterPosition
+            return if (position != RecyclerView.NO_POSITION) getItem(position) else null
         }
 
         fun bind(pixbayPhoto: PixbayPhoto) {
