@@ -14,8 +14,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PixbayPhotoAdapter @Inject constructor():
+class PixbayPhotoAdapter @Inject constructor() :
     PagingDataAdapter<PixbayPhoto, PixbayPhotoAdapter.PixbayViewHolder>(PHOTO_DIFF_UTIL) {
+
+    private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PixbayViewHolder {
         val binding =
@@ -29,8 +31,28 @@ class PixbayPhotoAdapter @Inject constructor():
         }
     }
 
-    class PixbayViewHolder(private val binding: ItemPixbayPhotoBinding) :
+    interface OnItemClickListener {
+        fun onItemClick(photo: PixbayPhoto)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
+
+    inner class PixbayViewHolder(private val binding: ItemPixbayPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    if (item != null) {
+                        listener?.onItemClick(item)
+                    }
+                }
+            }
+        }
 
         fun bind(pixbayPhoto: PixbayPhoto) {
             binding.apply {
@@ -39,7 +61,7 @@ class PixbayPhotoAdapter @Inject constructor():
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_error)
-                    .into(imageView)
+                    .into(imageViewMain)
 
                 textViewUserName.text = pixbayPhoto.user
             }

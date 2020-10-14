@@ -3,7 +3,6 @@ package com.example.imagesearcher.data
 import androidx.paging.PagingSource
 import com.example.imagesearcher.api.PixbayApi
 import java.io.IOException
-import java.lang.RuntimeException
 
 class PixbayPagingSource(
     val pixbayApi: PixbayApi,

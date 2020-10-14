@@ -1,10 +1,12 @@
 package com.example.imagesearcher
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.imagesearcher.data.PixbayRepository
-import kotlinx.coroutines.Dispatchers
 
 class PixbayViewModel @ViewModelInject constructor(
     private val repository: PixbayRepository
