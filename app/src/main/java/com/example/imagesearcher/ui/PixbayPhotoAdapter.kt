@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.imagesearcher.R
 import com.example.imagesearcher.data.remote.PixbayPhoto
 import com.example.imagesearcher.databinding.ItemPixbayPhotoBinding
+import com.example.imagesearcher.ui.favourites.jumpAnimate
 import kotlinx.android.synthetic.main.fragment_details.view.image_view_main
 import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button
 import javax.inject.Inject
@@ -50,8 +51,11 @@ class PixbayPhotoAdapter @Inject constructor() :
                 image_view_main.setOnClickListener {
                     getCurrentItem()?.let { listener?.onItemClick(it) }
                 }
-                floating_button.setOnClickListener {
-                    getCurrentItem()?.let { listener?.onFavouriteClick(it) }
+                floating_button.setOnClickListener { view ->
+                    getCurrentItem()?.let {
+                        listener?.onFavouriteClick(it)
+                    }
+                    view.jumpAnimate()
                 }
             }
         }
