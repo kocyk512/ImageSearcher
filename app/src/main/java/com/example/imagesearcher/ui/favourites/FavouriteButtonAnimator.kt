@@ -28,6 +28,6 @@ fun View.jumpAnimate() = animate()
 
 private const val JUMP_SCALE = 1.2f
 private const val GO_BACK_SCALE = 1.0f
-private const val JUMP_DURATION = 100L
-private const val GO_BACK_DURATION = 200L
+const val JUMP_DURATION = 50L
+const val GO_BACK_DURATION = 200L
 private const val GO_BACK_TENSION = 5f

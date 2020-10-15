@@ -7,12 +7,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.imagesearcher.ANIMATION_DURATION
 import com.example.imagesearcher.R
 import com.example.imagesearcher.data.remote.PixbayPhoto
 import com.example.imagesearcher.databinding.ItemPixbayPhotoBinding
 import com.example.imagesearcher.ui.favourites.jumpAnimate
 import kotlinx.android.synthetic.main.fragment_details.view.image_view_main
 import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -44,6 +49,17 @@ class PixbayPhotoAdapter @Inject constructor() :
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
     }
+
+    fun setFavouriteIds(ids: List<Int?>) {
+        favouritePhotosIds.clear()
+        favouritePhotosIds.addAll(ids)
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(ANIMATION_DURATION)
+            notifyDataSetChanged()
+        }
+    }
+
+    private val favouritePhotosIds = mutableListOf<Int?>()
 
     inner class PixbayViewHolder(private val binding: ItemPixbayPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -77,6 +93,10 @@ class PixbayPhotoAdapter @Inject constructor() :
                     .into(imageViewMain)
 
                 textViewUserName.text = pixbayPhoto.user
+                floatingButton.setImageResource(
+                    if (favouritePhotosIds.contains(pixbayPhoto.id)) R.drawable.ic_favorite_filled
+                    else R.drawable.ic_favorite_border
+                )
             }
         }
     }

@@ -11,12 +11,16 @@ import androidx.paging.cachedIn
 import com.example.imagesearcher.data.PixbayRepository
 import com.example.imagesearcher.data.remote.PixbayPhoto
 import com.example.imagesearcher.data.remote.toDbItem
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
 class PixbayViewModel @ViewModelInject constructor(
     private val repository: PixbayRepository,
     @Assisted state: SavedStateHandle,
 ) : ViewModel() {
+
+    private val disposable = CompositeDisposable()
 
     private val currentQuery = state.getLiveData(
         CURRENT_QUERY,
@@ -43,6 +47,23 @@ class PixbayViewModel @ViewModelInject constructor(
     }
 
     fun allFavouritesPhoto() = repository.observeAllPhotos()
+
+    fun favouriteClick(photo: PixbayPhoto) {
+        disposable.add(
+            repository.containsItem(photo.id)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    deletePhoto(photo)
+                }, {
+                    insertPhoto(photo)
+                })
+        )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable.clear()
+    }
 
     companion object {
         private const val DEFAULT_QUERY = "cats"

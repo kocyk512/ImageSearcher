@@ -104,6 +104,12 @@ dependencies {
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
     implementation 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0'
     implementation 'com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0'
+    implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.0'
+
+    // RxJava support for Room
+    implementation "androidx.room:room-rxjava2:2.2.5"
+    // Testing support
+    androidTestImplementation "android.arch.core:core-testing:1.1.1"
 
     //Truth
     testImplementation "com.google.truth:truth:1.0.1"

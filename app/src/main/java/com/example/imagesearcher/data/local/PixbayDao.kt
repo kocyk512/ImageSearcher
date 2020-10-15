@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.reactivex.Single
 
 @Dao
 interface PixbayDao {
@@ -18,4 +19,8 @@ interface PixbayDao {
 
     @Query("SELECT * FROM photo_items")
     fun observeAllPhotos(): LiveData<List<PixbayDBItem>>
+
+    @Query("SELECT * FROM photo_items WHERE id = :id")
+    fun containsItem(id: Int): Single<PixbayDBItem>
+
 }

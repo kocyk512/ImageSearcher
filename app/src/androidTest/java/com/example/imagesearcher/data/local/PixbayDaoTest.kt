@@ -77,4 +77,14 @@ class PixbayDaoTest {
 
         assertThat(allPhotos).containsExactly(photoItem, photoItem2, photoItem3)
     }
+
+    @Test
+    fun containsItem() = runBlockingTest {
+        val photoItem = PixbayDBItem(1, "url", "tags", "user", "userImageUrl")
+        dao.insertPhoto(photoItem)
+
+        dao.containsItem(photoItem.id!!)
+            .test()
+            .assertValue(photoItem)
+    }
 }

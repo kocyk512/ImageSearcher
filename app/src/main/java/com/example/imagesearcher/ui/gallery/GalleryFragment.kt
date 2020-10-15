@@ -9,13 +9,13 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.imagesearcher.viewmodel.PixbayViewModel
 import com.example.imagesearcher.R
 import com.example.imagesearcher.data.remote.PixbayPhoto
 import com.example.imagesearcher.databinding.FragmentGalleryBinding
-import com.example.imagesearcher.ui.GalleryFragmentDirections
 import com.example.imagesearcher.subscribe
 import com.example.imagesearcher.subscribeAndroid
 import com.jakewharton.rxbinding4.appcompat.queryTextChanges
@@ -93,6 +93,15 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         retryClickS.subscribe(viewLifecycleOwner) {
             pixbayPhotoAdapter.retry()
         }
+        allFavouritesPhoto()
+            .map { list ->
+                list.map { item ->
+                    item.id
+                }
+            }
+            .subscribe(viewLifecycleOwner) {
+                pixbayPhotoAdapter.setFavouriteIds(it)
+            }
     }
 
     override fun onItemClick(photo: PixbayPhoto) {
@@ -103,7 +112,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         findNavController().navigate(action)
     }
 
-    override fun onFavouriteClick(photo: PixbayPhoto) = viewModel.insertPhoto(photo)
+    override fun onFavouriteClick(photo: PixbayPhoto) = viewModel.favouriteClick(photo)
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
