@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.example.imagesearcher.DATABASE_NAME
 import com.example.imagesearcher.api.PixbayApi
 import com.example.imagesearcher.data.local.PixbayDatabase
-import com.example.imagesearcher.ui.PixbayPhotoAdapter
+import com.example.imagesearcher.ui.gallery.PixbayPhotoAdapter
 import com.example.imagesearcher.ui.favourites.FavouritesAdapter
 import dagger.Module
 import dagger.Provides
@@ -48,7 +48,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePixbayAdapter(): PixbayPhotoAdapter = PixbayPhotoAdapter()
+    fun providePixbayAdapter(): PixbayPhotoAdapter =
+        PixbayPhotoAdapter()
 
     @Provides
     @Singleton

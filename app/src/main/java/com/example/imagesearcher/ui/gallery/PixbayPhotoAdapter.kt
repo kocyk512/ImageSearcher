@@ -1,4 +1,4 @@
-package com.example.imagesearcher.ui
+package com.example.imagesearcher.ui.gallery
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,7 +18,9 @@ import javax.inject.Singleton
 
 @Singleton
 class PixbayPhotoAdapter @Inject constructor() :
-    PagingDataAdapter<PixbayPhoto, PixbayPhotoAdapter.PixbayViewHolder>(PHOTO_DIFF_UTIL) {
+    PagingDataAdapter<PixbayPhoto, PixbayPhotoAdapter.PixbayViewHolder>(
+        PHOTO_DIFF_UTIL
+    ) {
 
     private var listener: OnItemClickListener? = null
 

@@ -1,4 +1,4 @@
-package com.example.imagesearcher
+package com.example.imagesearcher.viewmodel
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -18,7 +18,10 @@ class PixbayViewModel @ViewModelInject constructor(
     @Assisted state: SavedStateHandle,
 ) : ViewModel() {
 
-    private val currentQuery = state.getLiveData(CURRENT_QUERY, DEFAULT_QUERY)
+    private val currentQuery = state.getLiveData(
+        CURRENT_QUERY,
+        DEFAULT_QUERY
+    )
 
     val photos = currentQuery.switchMap { queryString ->
         repository.searchPhoto(queryString).cachedIn(viewModelScope)

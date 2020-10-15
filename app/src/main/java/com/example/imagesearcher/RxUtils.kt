@@ -1,4 +1,4 @@
-package com.example.imagesearcher.ui
+package com.example.imagesearcher
 
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner

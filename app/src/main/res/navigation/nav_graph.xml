@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/galleryFragment"
-        android:name="com.example.imagesearcher.ui.GalleryFragment"
+        android:name="com.example.imagesearcher.ui.gallery.GalleryFragment"
         android:label="Image Searcher"
         tools:layout="@layout/fragment_gallery">
         <action

@@ -1,4 +1,4 @@
-package com.example.imagesearcher.ui
+package com.example.imagesearcher.ui.gallery
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,10 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import com.example.imagesearcher.PixbayViewModel
+import com.example.imagesearcher.viewmodel.PixbayViewModel
 import com.example.imagesearcher.R
 import com.example.imagesearcher.data.remote.PixbayPhoto
 import com.example.imagesearcher.databinding.FragmentGalleryBinding
+import com.example.imagesearcher.ui.GalleryFragmentDirections
+import com.example.imagesearcher.subscribe
+import com.example.imagesearcher.subscribeAndroid
 import com.jakewharton.rxbinding4.appcompat.queryTextChanges
 import com.jakewharton.rxbinding4.view.clicks
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +26,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class GalleryFragment : Fragment(R.layout.fragment_gallery), PixbayPhotoAdapter.OnItemClickListener {
+class GalleryFragment : Fragment(R.layout.fragment_gallery),
+    PixbayPhotoAdapter.OnItemClickListener {
 
     private val viewModel by viewModels<PixbayViewModel>()
     private var _binding: FragmentGalleryBinding? = null
@@ -92,7 +96,10 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), PixbayPhotoAdapter.
     }
 
     override fun onItemClick(photo: PixbayPhoto) {
-        val action = GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(photo)
+        val action =
+            GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(
+                photo
+            )
         findNavController().navigate(action)
     }
 
@@ -121,7 +128,8 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), PixbayPhotoAdapter.
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_favourites -> {
-            val action = GalleryFragmentDirections.actionGalleryFragmentToFavouritesFragment()
+            val action =
+                GalleryFragmentDirections.actionGalleryFragmentToFavouritesFragment()
             findNavController().navigate(action)
             true
         }

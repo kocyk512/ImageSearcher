@@ -5,10 +5,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
-import com.example.imagesearcher.PixbayViewModel
+import com.example.imagesearcher.viewmodel.PixbayViewModel
 import com.example.imagesearcher.R
 import com.example.imagesearcher.databinding.FragmentFavouritesBinding
-import com.example.imagesearcher.ui.subscribe
+import com.example.imagesearcher.subscribe
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.example.imagesearcher
+package com.example.imagesearcher.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.imagesearcher.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
