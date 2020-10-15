@@ -6,6 +6,7 @@ import com.example.imagesearcher.DATABASE_NAME
 import com.example.imagesearcher.api.PixbayApi
 import com.example.imagesearcher.data.local.PixbayDatabase
 import com.example.imagesearcher.ui.PixbayPhotoAdapter
+import com.example.imagesearcher.ui.favourites.FavouritesAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,7 +48,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAdapter(): PixbayPhotoAdapter = PixbayPhotoAdapter()
+    fun providePixbayAdapter(): PixbayPhotoAdapter = PixbayPhotoAdapter()
+
+    @Provides
+    @Singleton
+    fun provideFavouritesAdapter(): FavouritesAdapter = FavouritesAdapter()
 
     @Singleton
     @Provides

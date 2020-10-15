@@ -2,6 +2,7 @@ package com.example.imagesearcher.data.remote
 
 
 import android.os.Parcelable
+import com.example.imagesearcher.data.local.PixbayDBItem
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -31,3 +32,11 @@ data class PixbayPhoto(
     val webformatURL: String,
     val webformatWidth: Int
 ) : Parcelable
+
+fun PixbayPhoto.toDbItem() = PixbayDBItem(
+    id,
+    webformatURL,
+    tags,
+    user,
+    userImageURL
+)

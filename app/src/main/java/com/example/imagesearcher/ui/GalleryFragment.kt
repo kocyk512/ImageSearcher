@@ -1,9 +1,9 @@
 package com.example.imagesearcher.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -117,6 +117,15 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), PixbayPhotoAdapter.
                         viewModel.searchPhotos(it.toString())
                     }
                 })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_favourites -> {
+            val action = GalleryFragmentDirections.actionGalleryFragmentToFavouritesFragment()
+            findNavController().navigate(action)
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {

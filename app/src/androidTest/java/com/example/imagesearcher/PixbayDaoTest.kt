@@ -43,7 +43,7 @@ class PixbayDaoTest {
     }
 
     @Test
-    fun insertShoppingItem() = runBlockingTest {
+    fun insertDBItem() = runBlockingTest {
         val photoItem = PixbayDBItem(1, "url", "tags", "user", "userImageUrl")
         dao.insertPhoto(photoItem)
 
@@ -53,7 +53,7 @@ class PixbayDaoTest {
     }
 
     @Test
-    fun deleteShoppingItem() = runBlockingTest {
+    fun deleteDBItem() = runBlockingTest {
         val photoItem = PixbayDBItem(1, "url", "tags", "user", "userImageUrl")
         dao.insertPhoto(photoItem)
         dao.deletePhoto(photoItem)
@@ -61,5 +61,20 @@ class PixbayDaoTest {
         val allPhotos = dao.observeAllPhotos().getOrAwaitValue()
 
         assertThat(allPhotos).doesNotContain(photoItem)
+    }
+
+    @Test
+    fun observeAllDBItems() = runBlockingTest {
+        val photoItem = PixbayDBItem(1, "url", "tags", "user", "userImageUrl")
+        val photoItem2 = PixbayDBItem(2, "url2", "tags2", "user2", "userImageUrl2")
+        val photoItem3 = PixbayDBItem(3, "url3", "tags3", "user3", "userImageUrl3")
+
+        val items = listOf(photoItem, photoItem2, photoItem3)
+
+        items.forEach { dao.insertPhoto(it) }
+
+        val allPhotos = dao.observeAllPhotos().getOrAwaitValue()
+
+        assertThat(allPhotos).containsExactly(photoItem, photoItem2, photoItem3)
     }
 }

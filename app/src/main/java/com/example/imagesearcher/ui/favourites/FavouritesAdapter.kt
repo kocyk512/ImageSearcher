@@ -1,14 +1,15 @@
-package com.example.imagesearcher.ui
+package com.example.imagesearcher.ui.favourites
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.imagesearcher.R
-import com.example.imagesearcher.data.remote.PixbayPhoto
+import com.example.imagesearcher.data.local.PixbayDBItem
 import com.example.imagesearcher.databinding.ItemPixbayPhotoBinding
 import kotlinx.android.synthetic.main.fragment_details.view.image_view_main
 import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button
@@ -16,8 +17,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PixbayPhotoAdapter @Inject constructor() :
-    PagingDataAdapter<PixbayPhoto, PixbayPhotoAdapter.PixbayViewHolder>(PHOTO_DIFF_UTIL) {
+class FavouritesAdapter @Inject constructor() :
+    ListAdapter<PixbayDBItem, FavouritesAdapter.PixbayViewHolder>(PHOTO_DIFF_UTIL) {
 
     private var listener: OnItemClickListener? = null
 
@@ -34,8 +35,8 @@ class PixbayPhotoAdapter @Inject constructor() :
     }
 
     interface OnItemClickListener {
-        fun onItemClick(photo: PixbayPhoto)
-        fun onFavouriteClick(photo: PixbayPhoto)
+        fun onItemClick(photo: PixbayDBItem)
+        fun onFavouriteClick(photo: PixbayDBItem)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -47,6 +48,7 @@ class PixbayPhotoAdapter @Inject constructor() :
 
         init {
             with(binding.root) {
+                floating_button.isVisible = false
                 image_view_main.setOnClickListener {
                     getCurrentItem()?.let { listener?.onItemClick(it) }
                 }
@@ -56,15 +58,15 @@ class PixbayPhotoAdapter @Inject constructor() :
             }
         }
 
-        private fun getCurrentItem(): PixbayPhoto? {
+        private fun getCurrentItem(): PixbayDBItem? {
             val position = bindingAdapterPosition
             return if (position != RecyclerView.NO_POSITION) getItem(position) else null
         }
 
-        fun bind(pixbayPhoto: PixbayPhoto) {
+        fun bind(pixbayPhoto: PixbayDBItem) {
             binding.apply {
                 Glide.with(itemView)
-                    .load(pixbayPhoto.webformatURL)
+                    .load(pixbayPhoto.webFormatUrl)
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_error)
@@ -76,11 +78,11 @@ class PixbayPhotoAdapter @Inject constructor() :
     }
 
     companion object {
-        private val PHOTO_DIFF_UTIL = object : DiffUtil.ItemCallback<PixbayPhoto>() {
-            override fun areItemsTheSame(oldItem: PixbayPhoto, newItem: PixbayPhoto) =
+        private val PHOTO_DIFF_UTIL = object : DiffUtil.ItemCallback<PixbayDBItem>() {
+            override fun areItemsTheSame(oldItem: PixbayDBItem, newItem: PixbayDBItem) =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: PixbayPhoto, newItem: PixbayPhoto) =
+            override fun areContentsTheSame(oldItem: PixbayDBItem, newItem: PixbayDBItem) =
                 oldItem == newItem
         }
     }

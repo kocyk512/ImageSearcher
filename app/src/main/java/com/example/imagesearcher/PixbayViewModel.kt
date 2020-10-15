@@ -9,8 +9,8 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.imagesearcher.data.PixbayRepository
-import com.example.imagesearcher.data.local.PixbayDBItem
 import com.example.imagesearcher.data.remote.PixbayPhoto
+import com.example.imagesearcher.data.remote.toDbItem
 import kotlinx.coroutines.launch
 
 class PixbayViewModel @ViewModelInject constructor(
@@ -32,16 +32,14 @@ class PixbayViewModel @ViewModelInject constructor(
     val retryClickS = MutableLiveData<Unit>()
 
     fun insertPhoto(photo: PixbayPhoto) {
-        val photoDBItem = PixbayDBItem(
-            webFormatUrl = photo.webformatURL,
-            tags = photo.tags,
-            user = photo.user,
-            userImageUrl = photo.userImageURL
-        )
-        viewModelScope.launch {
-            repository.insertPhoto(photoDBItem)
-        }
+        viewModelScope.launch { repository.insertPhoto(photo.toDbItem()) }
     }
+
+    fun deletePhoto(photo: PixbayPhoto) {
+        viewModelScope.launch { repository.deletePhoto(photo.toDbItem()) }
+    }
+
+    fun allFavouritesPhoto() = repository.observeAllPhotos()
 
     companion object {
         private const val DEFAULT_QUERY = "cats"

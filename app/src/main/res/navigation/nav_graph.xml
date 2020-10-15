@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_galleryFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_galleryFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -23,4 +26,9 @@
             android:name="photo"
             app:argType="com.example.imagesearcher.data.remote.PixbayPhoto" />
     </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.imagesearcher.ui.favourites.FavouritesFragment"
+        android:label="@string/favourites"
+        tools:layout="@layout/fragment_favourites" />
 </navigation>
