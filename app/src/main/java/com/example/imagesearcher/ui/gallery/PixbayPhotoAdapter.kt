@@ -92,6 +92,12 @@ class PixbayPhotoAdapter @Inject constructor() :
                     .error(R.drawable.ic_error)
                     .into(imageViewMain)
 
+                Glide.with(itemView)
+                    .load(pixbayPhoto.userImageURL)
+                    .circleCrop()
+                    .error(R.drawable.ic_user)
+                    .into(UserGlideTarget(textViewUserName))
+
                 textViewUserName.text = pixbayPhoto.user
                 floatingButton.setImageResource(
                     if (favouritePhotosIds.contains(pixbayPhoto.id)) R.drawable.ic_favorite_filled
