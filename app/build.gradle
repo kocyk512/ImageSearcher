@@ -64,6 +64,7 @@ dependencies {
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
 
     // Dagger Hilt
@@ -108,8 +109,6 @@ dependencies {
 
     // RxJava support for Room
     implementation "androidx.room:room-rxjava2:2.2.5"
-    // Testing support
-    androidTestImplementation "android.arch.core:core-testing:1.1.1"
 
     //Truth
     testImplementation "com.google.truth:truth:1.0.1"
@@ -117,6 +116,7 @@ dependencies {
 
     //Test executor for testing Architecture components
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
 
     //Coroutines for tests
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
@@ -124,5 +124,8 @@ dependencies {
     //Hilt - tests
     androidTestImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+
+    //Coroutines tests
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
 
 }

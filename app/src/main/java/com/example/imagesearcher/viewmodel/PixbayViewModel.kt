@@ -9,6 +9,7 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.imagesearcher.data.PixbayRepository
+import com.example.imagesearcher.data.RepositoryContract
 import com.example.imagesearcher.data.remote.PixbayPhoto
 import com.example.imagesearcher.data.remote.toDbItem
 import io.reactivex.disposables.CompositeDisposable
@@ -16,11 +17,13 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
 class PixbayViewModel @ViewModelInject constructor(
-    private val repository: PixbayRepository,
+    private val repository: RepositoryContract,
     @Assisted state: SavedStateHandle,
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
+    val footerHeaderRefreshClickS = MutableLiveData<Unit>()
+    val retryClickS = MutableLiveData<Unit>()
 
     private val currentQuery = state.getLiveData(
         CURRENT_QUERY,
@@ -34,9 +37,6 @@ class PixbayViewModel @ViewModelInject constructor(
     fun searchPhotos(query: String) {
         currentQuery.value = query
     }
-
-    val footerHeaderRefreshClickS = MutableLiveData<Unit>()
-    val retryClickS = MutableLiveData<Unit>()
 
     fun insertPhoto(photo: PixbayPhoto) {
         viewModelScope.launch { repository.insertPhoto(photo.toDbItem()) }

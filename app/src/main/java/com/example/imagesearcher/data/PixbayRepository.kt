@@ -35,6 +35,6 @@ class PixbayRepository @Inject constructor(
 
     override fun observeAllPhotos(): LiveData<List<PixbayDBItem>> = pixbayDao.observeAllPhotos()
 
-    fun containsItem(id: Int) = pixbayDao.containsItem(id)
+    override fun containsItem(id: Int) = pixbayDao.containsItem(id)
 }
 
