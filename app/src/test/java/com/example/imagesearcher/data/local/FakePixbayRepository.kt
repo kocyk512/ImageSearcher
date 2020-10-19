@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingData
 import com.example.imagesearcher.data.RepositoryContract
 import com.example.imagesearcher.data.remote.PixbayPhoto
+import com.example.imagesearcher.utils.defaultPhoto
 import io.reactivex.Single
 
 class FakePixbayRepository: RepositoryContract {
@@ -17,7 +18,7 @@ class FakePixbayRepository: RepositoryContract {
     }
 
     override fun searchPhoto(query: String): LiveData<PagingData<PixbayPhoto>> {
-        TODO("Not yet implemented")
+        return MutableLiveData(PagingData.from(listOf(defaultPhoto)))
     }
 
     override suspend fun insertPhoto(photo: PixbayDBItem) {
@@ -38,7 +39,7 @@ class FakePixbayRepository: RepositoryContract {
             it.id == id
         }
         return Single.just(
-            list?.first()
+            list.first()
         )
     }
 }

@@ -12,7 +12,7 @@ fun PixbayPhoto.toDbItemTest() = PixbayDBItem(
     userImageURL
 )
 
-private val defaultPhoto = PixbayPhoto(
+val defaultPhoto = PixbayPhoto(
     0, 0, 0, 0, 0, 0, 0, "",
     0, "", 0, "", 0, "", "", "", 0,
     "", 0, 0, "", 0

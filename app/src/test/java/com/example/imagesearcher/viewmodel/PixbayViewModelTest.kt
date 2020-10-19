@@ -5,8 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.example.imagesearcher.MainCoroutineRule
 import com.example.imagesearcher.data.local.FakePixbayRepository
 import com.example.imagesearcher.getOrAwaitValueTest
-import com.example.imagesearcher.utils.domainPhoto
-import com.example.imagesearcher.utils.toDbItemTest
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
@@ -33,18 +31,33 @@ class PixbayViewModelTest {
     }
 
     @Test
-    fun `given database, when item inserted, then database contain item`() {
-        viewModel.insertPhoto(domainPhoto)
-        val value = viewModel.allFavouritesPhoto().getOrAwaitValueTest()
+    fun `On search query to short, proper error status is set`() {
+        val query = "ca"
+        viewModel.searchPhotos(query)
 
-        assertThat(value).contains(domainPhoto.toDbItemTest())
+        val value = viewModel.queryStatus.getOrAwaitValueTest()
+
+        assertThat(value.status).isEqualTo(QueryStatus.ErrorToShort)
+    }
+
+
+    @Test
+    fun `On search query with number, proper error status is set`() {
+        val query = "cat9"
+        viewModel.searchPhotos(query)
+
+        val value = viewModel.queryStatus.getOrAwaitValueTest()
+
+        assertThat(value.status).isEqualTo(QueryStatus.ErrorFormat)
     }
 
     @Test
-    fun `given database, when favourite button on item clicked, then database contains item`() {
-        viewModel.favouriteClick(domainPhoto)
-        val value = viewModel.allFavouritesPhoto().getOrAwaitValueTest()
+    fun `On valid search query with minimal length, query status is Valid`() {
+        val query = "cat"
+        viewModel.searchPhotos(query)
 
-        assertThat(value).contains(domainPhoto.toDbItemTest())
+        val value = viewModel.queryStatus.getOrAwaitValueTest()
+
+        assertThat(value.status).isEqualTo(QueryStatus.Valid)
     }
 }

@@ -2,13 +2,13 @@ package com.example.imagesearcher.viewmodel
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.imagesearcher.data.PixbayRepository
 import com.example.imagesearcher.data.RepositoryContract
 import com.example.imagesearcher.data.remote.PixbayPhoto
 import com.example.imagesearcher.data.remote.toDbItem
@@ -24,6 +24,8 @@ class PixbayViewModel @ViewModelInject constructor(
     private val disposable = CompositeDisposable()
     val footerHeaderRefreshClickS = MutableLiveData<Unit>()
     val retryClickS = MutableLiveData<Unit>()
+    private val _queryStatus = MutableLiveData<QueryEvent>()
+    val queryStatus: LiveData<QueryEvent> = _queryStatus
 
     private val currentQuery = state.getLiveData(
         CURRENT_QUERY,
@@ -35,14 +37,23 @@ class PixbayViewModel @ViewModelInject constructor(
     }
 
     fun searchPhotos(query: String) {
+        if (query.length < 3) {
+            _queryStatus.postValue(QueryEvent(query, QueryStatus.ErrorToShort))
+            return
+        }
+        if(query.searchQueryError()){
+            _queryStatus.postValue(QueryEvent(query, QueryStatus.ErrorFormat))
+            return
+        }
+        _queryStatus.postValue(QueryEvent(query, QueryStatus.Valid))
         currentQuery.value = query
     }
 
-    fun insertPhoto(photo: PixbayPhoto) {
+    private fun insertPhoto(photo: PixbayPhoto) {
         viewModelScope.launch { repository.insertPhoto(photo.toDbItem()) }
     }
 
-    fun deletePhoto(photo: PixbayPhoto) {
+    private fun deletePhoto(photo: PixbayPhoto) {
         viewModelScope.launch { repository.deletePhoto(photo.toDbItem()) }
     }
 

@@ -12,12 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import com.example.imagesearcher.viewmodel.PixbayViewModel
 import com.example.imagesearcher.R
 import com.example.imagesearcher.data.remote.PixbayPhoto
 import com.example.imagesearcher.databinding.FragmentGalleryBinding
 import com.example.imagesearcher.subscribe
 import com.example.imagesearcher.subscribeAndroid
+import com.example.imagesearcher.ui.utils.handleQueryStatus
+import com.example.imagesearcher.viewmodel.PixbayViewModel
 import com.jakewharton.rxbinding4.appcompat.queryTextChanges
 import com.jakewharton.rxbinding4.view.clicks
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,6 +86,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
 
     private fun setupViewModel() = viewModel.apply {
         photos.subscribe(viewLifecycleOwner) {
+            binding.recyclerView.scrollToPosition(0)
             pixbayPhotoAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
         footerHeaderRefreshClickS.subscribe(viewLifecycleOwner) {
@@ -102,6 +104,9 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
             .subscribe(viewLifecycleOwner) {
                 pixbayPhotoAdapter.setFavouriteIds(it)
             }
+        queryStatus.subscribe(viewLifecycleOwner) {
+            handleQueryStatus(this@GalleryFragment.context, it)
+        }
     }
 
     override fun onItemClick(photo: PixbayPhoto) {
@@ -126,7 +131,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
                 .skipInitialValue()
                 .debounce(700L, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
-                .filter { it.length >= 3 }
                 .subscribeAndroid {
                     if (it.isNotBlank()) {
                         binding.recyclerView.scrollToPosition(0)
