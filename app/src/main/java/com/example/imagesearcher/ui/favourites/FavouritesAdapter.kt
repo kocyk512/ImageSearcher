@@ -2,7 +2,6 @@ package com.example.imagesearcher.ui.favourites
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -35,8 +34,7 @@ class FavouritesAdapter @Inject constructor() :
     }
 
     interface OnItemClickListener {
-        fun onItemClick(photo: PixbayDBItem)
-        fun onFavouriteClick(photo: PixbayDBItem)
+        fun onFloatingBtnClick(photo: PixbayDBItem)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -48,12 +46,11 @@ class FavouritesAdapter @Inject constructor() :
 
         init {
             with(binding.root) {
-                floating_button.isVisible = false
-                image_view_main.setOnClickListener {
-                    getCurrentItem()?.let { listener?.onItemClick(it) }
-                }
-                floating_button.setOnClickListener {
-                    getCurrentItem()?.let { listener?.onFavouriteClick(it) }
+                floating_button.setOnClickListener { view ->
+                    getCurrentItem()?.let {
+                        listener?.onFloatingBtnClick(it)
+                    }
+                    view.jumpAnimate()
                 }
             }
         }
@@ -73,6 +70,7 @@ class FavouritesAdapter @Inject constructor() :
                     .into(imageViewMain)
 
                 textViewUserName.text = pixbayPhoto.user
+                floatingButton.setImageResource(R.drawable.ic_save)
             }
         }
     }
