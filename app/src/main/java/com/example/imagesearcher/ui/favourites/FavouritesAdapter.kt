@@ -1,5 +1,6 @@
 package com.example.imagesearcher.ui.favourites
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,8 +11,9 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.imagesearcher.R
 import com.example.imagesearcher.data.local.PixbayDBItem
 import com.example.imagesearcher.databinding.ItemPixbayPhotoBinding
-import kotlinx.android.synthetic.main.fragment_details.view.image_view_main
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button
+import kotlinx.android.synthetic.main.item_pixbay_photo.view.image_view_main_item
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,7 +36,7 @@ class FavouritesAdapter @Inject constructor() :
     }
 
     interface OnItemClickListener {
-        fun onFloatingBtnClick(photo: PixbayDBItem)
+        fun onFloatingBtnClick(photo: PixbayDBItem, drawable: Drawable)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -48,7 +50,10 @@ class FavouritesAdapter @Inject constructor() :
             with(binding.root) {
                 floating_button.setOnClickListener { view ->
                     getCurrentItem()?.let {
-                        listener?.onFloatingBtnClick(it)
+                        if (view is FloatingActionButton) {
+                            val drawable = image_view_main_item.drawable
+                            listener?.onFloatingBtnClick(it, drawable)
+                        }
                     }
                     view.jumpAnimate()
                 }
@@ -67,7 +72,7 @@ class FavouritesAdapter @Inject constructor() :
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_error)
-                    .into(imageViewMain)
+                    .into(imageViewMainItem)
 
                 textViewUserName.text = pixbayPhoto.user
                 floatingButton.setImageResource(R.drawable.ic_save)

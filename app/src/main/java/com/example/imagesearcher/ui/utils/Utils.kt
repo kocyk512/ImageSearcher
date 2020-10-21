@@ -3,6 +3,7 @@ package com.example.imagesearcher.ui.utils
 import android.content.Context
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.imagesearcher.viewmodel.QueryEvent
 import com.example.imagesearcher.viewmodel.QueryStatus
 import com.google.android.material.snackbar.Snackbar
@@ -33,4 +34,22 @@ fun handleQueryStatus(ctx: Context?, queryEvent: QueryEvent) {
             toast(it, "Query can contain only letters")
         }
     }
+}
+
+fun showDialogPermissions(
+    msg: String,
+    context: Context,
+    onPositiveClick: () -> Unit
+) {
+    AlertDialog.Builder(context)
+        .setCancelable(true)
+        .setTitle("Permission necessary")
+        .setMessage("$msg permission is necessary")
+        .setPositiveButton(
+            context.resources.getString(android.R.string.ok)
+        ) { _, _ ->
+            onPositiveClick()
+        }
+        .create()
+        .show()
 }

@@ -14,6 +14,7 @@ import com.example.imagesearcher.databinding.ItemPixbayPhotoBinding
 import com.example.imagesearcher.ui.favourites.jumpAnimate
 import kotlinx.android.synthetic.main.fragment_details.view.image_view_main
 import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button
+import kotlinx.android.synthetic.main.item_pixbay_photo.view.image_view_main_item
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -66,7 +67,7 @@ class PixbayPhotoAdapter @Inject constructor() :
 
         init {
             with(binding.root) {
-                image_view_main.setOnClickListener {
+                image_view_main_item.setOnClickListener {
                     getCurrentItem()?.let { listener?.onItemClick(it) }
                 }
                 floating_button.setOnClickListener { view ->
@@ -90,7 +91,7 @@ class PixbayPhotoAdapter @Inject constructor() :
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_error)
-                    .into(imageViewMain)
+                    .into(imageViewMainItem)
 
                 Glide.with(itemView)
                     .load(pixbayPhoto.userImageURL)

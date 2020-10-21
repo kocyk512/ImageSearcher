@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/image_view_main"
+            android:id="@+id/image_view_main_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:background="@drawable/ic_launcher_background"
@@ -37,7 +37,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="@+id/image_view_main"
+            app:layout_constraintStart_toStartOf="@+id/image_view_main_item"
             tools:text="username" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

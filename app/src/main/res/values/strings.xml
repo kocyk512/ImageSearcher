@@ -5,4 +5,6 @@
     <string name="results_could_not_be_loaded">Results could not be loaded</string>
     <string name="retry">Retry</string>
     <string name="favourites">Favourites</string>
+    <string name="try_toSave_again">Try to save again</string>
+    <string name="photo_will_be">Photo will be available in device gallery in couple of seconds</string>
 </resources>
