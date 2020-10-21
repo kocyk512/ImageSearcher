@@ -11,13 +11,13 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.imagesearcher"
+        applicationId "com.krzysztofkocot.imagesearcher"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "com.example.imagesearcher.HiltTestRunner"
+        testInstrumentationRunner "com.krzysztofkocot.imagesearcher.HiltTestRunner"
     }
 
     buildTypes {
