@@ -49,7 +49,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                         isFirstResource: Boolean
                     ): Boolean {
                         progressBar.isVisible = false
-                        textViewCreator.isVisible = true
+                        textViewUser.isVisible = true
                         textViewTags.isVisible = photo.tags.isNotBlank()
                         return false
                     }
@@ -64,7 +64,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 .into(imageViewUserPhoto)
 
             textViewTags.text = photo.tags
-            textViewCreator.text = photo.user
+            textViewUser.text = photo.user
         }
     }
 }
