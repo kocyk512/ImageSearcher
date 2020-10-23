@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.krzysztofkocot.imagesearcher.data.local.PixbayDBItem
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import kotlin.reflect.full.memberProperties
 
 @Parcelize
 data class PixbayPhoto(
@@ -40,3 +41,12 @@ fun PixbayPhoto.toDbItem() = PixbayDBItem(
     user,
     userImageURL
 )
+
+fun PixbayPhoto.toDescription() = buildString {
+    for (property in PixbayPhoto::class.memberProperties) {
+        if (property.name.contains("URL").not()) {
+            append("${property.name}: ${property.get(this@toDescription)}")
+            appendLine()
+        }
+    }
+}
