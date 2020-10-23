@@ -65,11 +65,11 @@
 
         <TextView
             android:id="@+id/textView_tags"
-            android:textSize="24sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/tags_tags_tags" />
+            android:text="@string/tags_tags_tags"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/text_view_description"
@@ -79,6 +79,19 @@
             android:text="@string/lorem_ipsum"
             android:textSize="16sp" />
     </LinearLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@mipmap/ic_launcher"
+        android:visibility="invisible"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toTopOf="@id/linear_layout_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/linear_layout_user" />
+
 
     <ProgressBar
         android:id="@+id/progress_bar"
