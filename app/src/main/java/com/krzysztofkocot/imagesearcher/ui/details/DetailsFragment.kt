@@ -13,7 +13,9 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.krzysztofkocot.imagesearcher.R
+import com.krzysztofkocot.imagesearcher.data.remote.PixbayPhoto
 import com.krzysztofkocot.imagesearcher.databinding.FragmentDetailsBinding
+import kotlin.reflect.full.memberProperties
 
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
@@ -65,6 +67,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
             textViewTags.text = photo.tags
             textViewUser.text = photo.user
+            textViewDescription.text = buildString {
+                for (property in PixbayPhoto::class.memberProperties) {
+                    if (property.name.contains("URL").not()) {
+                        append("${property.name}: ${property.get(photo)}")
+                        appendLine()
+                    }
+                }
+            }
         }
     }
 }

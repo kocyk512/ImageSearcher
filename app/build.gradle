@@ -128,4 +128,6 @@ dependencies {
     //Coroutines tests
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
 
+    //Kotlin reflection
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
 }
