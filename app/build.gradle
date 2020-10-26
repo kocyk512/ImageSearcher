@@ -22,9 +22,32 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //pixabay_api_key_* is stored locally in gradle.properties
+            buildConfigField("String", "PIXABAY_API_KEY", pixabay_api_key_release)
+            buildConfigField("String", "PIXABAY_BASE_URL", pixabay_base_url_release)
         }
+
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            //pixabay_api_key_* is stored locally in gradle.properties
+            buildConfigField("String", "PIXABAY_API_KEY", pixabay_api_key_debug)
+            buildConfigField("String", "PIXABAY_BASE_URL", pixabay_base_url_debug)
+        }
+
+        uat {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            applicationIdSuffix ".uat"
+            //pixabay_api_key_* is stored locally in gradle.properties
+            buildConfigField("String", "PIXABAY_API_KEY", pixabay_api_key_uat)
+            buildConfigField("String", "PIXABAY_BASE_URL", pixabay_base_url_uat)
+        }
+
     }
 
     buildFeatures {
