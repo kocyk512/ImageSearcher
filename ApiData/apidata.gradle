@@ -1,0 +1,8 @@
+ext {
+    pixabay_api_key_release = "\"18609325-32275d7fbcd73dbcbafcc0731\""
+    pixabay_base_url_release = "\"18609325-32275d7fbcd73dbcbafcc0731\""
+    pixabay_api_key_debug = "\"18609325-32275d7fbcd73dbcbafcc0731\""
+    pixabay_base_url_debug = "\"https://pixabay.com/\""
+    pixabay_api_key_uat = "\"https://pixabay.com/\""
+    pixabay_base_url_uat = "\"https://pixabay.com/\""
+}

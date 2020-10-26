@@ -1,13 +1,14 @@
 package com.krzysztofkocot.imagesearcher.api
 
+import com.krzysztofkocot.imagesearcher.BuildConfig
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface PixbayApi {
 
     companion object {
-        val BASE_URL = "https://pixabay.com/"
-        val API_KEY = "18609325-32275d7fbcd73dbcbafcc0731"
+        const val BASE_URL = BuildConfig.PIXABAY_BASE_URL
+        const val API_KEY = BuildConfig.PIXABAY_API_KEY
     }
 
     @GET("api")
