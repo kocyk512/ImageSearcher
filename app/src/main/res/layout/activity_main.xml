@@ -14,4 +14,11 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 
+    <Button
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/buttonMain"
+        android:text="MAIN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

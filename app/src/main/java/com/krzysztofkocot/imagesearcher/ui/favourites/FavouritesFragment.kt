@@ -54,12 +54,16 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), FavouritesAda
         favouritesAdapter.setOnItemClickListener(this)
     }
 
-    override fun onFloatingBtnClick(photo: PixbayDBItem, drawable: Drawable) {
+    override fun onAddFavouriteClick(photo: PixbayDBItem, drawable: Drawable) {
         val permissionGranted = checkPermissionWRITE_EXTERNAL_STORAGE(requireContext(), activity as Activity)
         if (permissionGranted) {
             savebyMediaStore(photo, drawable, requireContext())
             toast(requireContext(), getString(R.string.photo_will_be))
         } else toast(requireContext(), getString(R.string.try_toSave_again))
+    }
+
+    override fun onBluetoothClickClick() {
+
     }
 
     override fun onDestroy() {
