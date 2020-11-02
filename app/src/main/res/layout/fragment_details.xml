@@ -83,9 +83,9 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bluetooth"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/linear_layout_user"
         app:layout_constraintEnd_toEndOf="parent"

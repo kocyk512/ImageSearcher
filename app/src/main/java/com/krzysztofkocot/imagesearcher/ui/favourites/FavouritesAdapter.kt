@@ -39,7 +39,7 @@ class FavouritesAdapter @Inject constructor() :
 
     interface OnItemClickListener {
         fun onAddFavouriteClick(photo: PixbayDBItem, drawable: Drawable)
-        fun onBluetoothClickClick()
+        fun onBluetoothClick()
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -61,7 +61,7 @@ class FavouritesAdapter @Inject constructor() :
                     view.jumpAnimate()
                 }
                 floating_button_bluetooth.setOnClickListener { view ->
-                    listener?.onBluetoothClickClick()
+                    listener?.onBluetoothClick()
                     view.jumpAnimate()
                 }
             }

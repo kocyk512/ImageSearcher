@@ -25,10 +25,22 @@
         <argument
             android:name="photo"
             app:argType="com.krzysztofkocot.imagesearcher.data.remote.PixbayPhoto" />
+        <action
+            android:id="@+id/action_detailsFragment_to_bluetoothDevicesFragment"
+            app:destination="@id/bluetoothDevicesFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouritesFragment"
         android:name="com.krzysztofkocot.imagesearcher.ui.favourites.FavouritesFragment"
         android:label="@string/favourites"
-        tools:layout="@layout/fragment_favourites" />
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_bluetoothDevicesFragment"
+            app:destination="@id/bluetoothDevicesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bluetoothDevicesFragment"
+        android:name="com.krzysztofkocot.imagesearcher.ui.bluetooth.BluetoothDevicesFragment"
+        android:label="Bluetooth devices"
+        tools:layout="@layout/fragment_bluetooth_devices" />
 </navigation>

@@ -76,6 +76,11 @@ class PixbayViewModel @ViewModelInject constructor(
         disposable.clear()
     }
 
+    fun bluetoothClick() {
+
+        repository.bluetoothClick()
+    }
+
     companion object {
         private const val DEFAULT_QUERY = "cats"
         private const val CURRENT_QUERY = "CURRENT_QUERY"

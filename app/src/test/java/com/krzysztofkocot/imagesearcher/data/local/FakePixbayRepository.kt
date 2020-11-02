@@ -42,4 +42,8 @@ class FakePixbayRepository: RepositoryContract {
             list.first()
         )
     }
+
+    override fun bluetoothClick() {
+        TODO("Not yet implemented")
+    }
 }

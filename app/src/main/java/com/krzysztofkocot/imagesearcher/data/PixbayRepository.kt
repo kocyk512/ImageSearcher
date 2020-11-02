@@ -1,5 +1,10 @@
 package com.krzysztofkocot.imagesearcher.data
 
+import android.bluetooth.BluetoothAdapter
+import android.content.Intent
+import android.content.IntentFilter
+import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -8,7 +13,9 @@ import com.krzysztofkocot.imagesearcher.api.PixbayApi
 import com.krzysztofkocot.imagesearcher.data.local.PixbayDBItem
 import com.krzysztofkocot.imagesearcher.data.local.PixbayDao
 import com.krzysztofkocot.imagesearcher.data.remote.PixbayPagingSource
+import com.krzysztofkocot.imagesearcher.di.AppModule
 import javax.inject.Inject
+
 
 class PixbayRepository @Inject constructor(
     private val pixbayApi: PixbayApi,
@@ -36,5 +43,9 @@ class PixbayRepository @Inject constructor(
     override fun observeAllPhotos(): LiveData<List<PixbayDBItem>> = pixbayDao.observeAllPhotos()
 
     override fun containsItem(id: Int) = pixbayDao.containsItem(id)
+
+    override fun bluetoothClick() {
+
+    }
 }
 
