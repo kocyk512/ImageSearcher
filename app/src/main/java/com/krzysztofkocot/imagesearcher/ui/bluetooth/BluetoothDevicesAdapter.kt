@@ -24,9 +24,14 @@ class BluetoothDevicesAdapter() :
         }
     }
 
-    inner class BluetoothDeviceViewHolder(private val binding: ItemBluetoothDeviceBinding) : RecyclerView.ViewHolder(binding.root) {
+    interface onItemClickListener {
+        fun onItemClick(device: BluetoothDeviceDomain)
+    }
+
+    inner class BluetoothDeviceViewHolder(private val binding: ItemBluetoothDeviceBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(device: BluetoothDeviceDomain) {
-            with (binding.root) {
+            with(binding.root) {
                 text_view_bluetooth_device.text = device.toString()
             }
         }
@@ -35,7 +40,7 @@ class BluetoothDevicesAdapter() :
     companion object {
         private val BLUETOOTH_DIFF_UTIL = object : DiffUtil.ItemCallback<BluetoothDeviceDomain>() {
             override fun areItemsTheSame(oldItem: BluetoothDeviceDomain, newItem: BluetoothDeviceDomain) =
-                oldItem.uuids == newItem.uuids
+                oldItem.address == newItem.address
 
             override fun areContentsTheSame(oldItem: BluetoothDeviceDomain, newItem: BluetoothDeviceDomain) =
                 oldItem == newItem
