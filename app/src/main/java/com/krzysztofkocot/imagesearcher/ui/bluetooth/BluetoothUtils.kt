@@ -8,18 +8,16 @@ import androidx.fragment.app.FragmentActivity
 
 fun checkBTPermissions(activity: FragmentActivity) {
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-        if (activity != null) {
-            var permissionCheck =
-                (activity as FragmentActivity).checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION")
-            permissionCheck += (activity as FragmentActivity).checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION")
-            if (permissionCheck != 0) {
-                activity.requestPermissions(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ), 1001
-                )
-            }
+        var permissionCheck =
+            (activity).checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION")
+        permissionCheck += (activity).checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION")
+        if (permissionCheck != 0) {
+            activity.requestPermissions(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ), 1001
+            )
         }
     } else {
         Log.d("KK", "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.")
