@@ -24,7 +24,7 @@ fun checkBTPermissions(activity: FragmentActivity) {
     }
 }
 
-fun discover(bluetoothAdapter: BluetoothAdapter) {
+fun         discover(bluetoothAdapter: BluetoothAdapter) {
     Log.d("KK", "discover(): Looking for unpaired devices.")
     bluetoothAdapter.apply {
         if (isDiscovering) {
