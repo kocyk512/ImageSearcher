@@ -19,4 +19,6 @@ interface RepositoryContract {
     fun containsItem(id: Int): Single<PixbayDBItem>
 
     fun bluetoothClick()
+
+    fun setupBluetooth()
 }

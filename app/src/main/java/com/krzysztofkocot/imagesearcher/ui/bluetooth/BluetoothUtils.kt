@@ -2,6 +2,7 @@ package com.krzysztofkocot.imagesearcher.ui.bluetooth
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.os.Build
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
@@ -24,7 +25,7 @@ fun checkBTPermissions(activity: FragmentActivity) {
     }
 }
 
-fun         discover(bluetoothAdapter: BluetoothAdapter) {
+fun discover(bluetoothAdapter: BluetoothAdapter) {
     Log.d("KK", "discover(): Looking for unpaired devices.")
     bluetoothAdapter.apply {
         if (isDiscovering) {

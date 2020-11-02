@@ -1,6 +1,7 @@
 package com.krzysztofkocot.imagesearcher.ui.utils
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -53,3 +54,5 @@ fun showDialogPermissions(
         .create()
         .show()
 }
+
+fun log(message: String) = Log.d("KK", message)

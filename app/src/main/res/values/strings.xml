@@ -11,4 +11,5 @@
     <string name="tags_tags_tags">Tags, tags, tags</string>
     <string name="choose_device">Choose device</string>
     <string name="no_bluetooth">Bluetooth unavailable</string>
+    <string name="paired">PAIRED:</string>
 </resources>

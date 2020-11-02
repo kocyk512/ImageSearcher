@@ -1,6 +1,7 @@
 package com.krzysztofkocot.imagesearcher.data
 
 import android.bluetooth.BluetoothAdapter
+import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
@@ -14,6 +15,7 @@ import com.krzysztofkocot.imagesearcher.data.local.PixbayDBItem
 import com.krzysztofkocot.imagesearcher.data.local.PixbayDao
 import com.krzysztofkocot.imagesearcher.data.remote.PixbayPagingSource
 import com.krzysztofkocot.imagesearcher.di.AppModule
+import com.krzysztofkocot.imagesearcher.ui.bluetooth.BluetoothOnOffReceiver
 import javax.inject.Inject
 
 
@@ -45,6 +47,10 @@ class PixbayRepository @Inject constructor(
     override fun containsItem(id: Int) = pixbayDao.containsItem(id)
 
     override fun bluetoothClick() {
+
+    }
+
+    override fun setupBluetooth() {
 
     }
 }

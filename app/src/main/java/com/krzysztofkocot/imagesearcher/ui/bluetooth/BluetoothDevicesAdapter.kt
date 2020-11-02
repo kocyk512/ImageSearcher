@@ -2,15 +2,19 @@ package com.krzysztofkocot.imagesearcher.ui.bluetooth
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding4.view.clicks
+import com.krzysztofkocot.imagesearcher.R
 import com.krzysztofkocot.imagesearcher.data.bluetooth.BluetoothDeviceDomain
 import com.krzysztofkocot.imagesearcher.databinding.ItemBluetoothDeviceBinding
-import kotlinx.android.synthetic.main.item_bluetooth_device.view.text_view_bluetooth_device
 
 class BluetoothDevicesAdapter() :
     ListAdapter<BluetoothDeviceDomain, BluetoothDevicesAdapter.BluetoothDeviceViewHolder>(BLUETOOTH_DIFF_UTIL) {
+
+    private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BluetoothDeviceViewHolder {
         val binding =
@@ -24,15 +28,30 @@ class BluetoothDevicesAdapter() :
         }
     }
 
-    interface onItemClickListener {
+    interface OnItemClickListener {
         fun onItemClick(device: BluetoothDeviceDomain)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
     }
 
     inner class BluetoothDeviceViewHolder(private val binding: ItemBluetoothDeviceBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(device: BluetoothDeviceDomain) {
-            with(binding.root) {
-                text_view_bluetooth_device.text = device.toString()
+            with(binding) {
+                textViewBluetoothDevice.apply {
+                    text = device.description
+                    clicks().subscribe { listener?.onItemClick(device) }
+                }
+                if (device.isPaired) {
+                    imageViewChecked.isVisible = true
+                    imageViewChecked.setImageResource(R.drawable.ic_check)
+                    textViewPaired.isVisible = true
+                } else {
+                    imageViewChecked.isVisible = false
+                    textViewPaired.isVisible = false
+                }
             }
         }
     }

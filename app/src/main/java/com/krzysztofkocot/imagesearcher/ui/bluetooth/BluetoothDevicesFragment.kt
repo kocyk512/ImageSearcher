@@ -2,35 +2,35 @@ package com.krzysztofkocot.imagesearcher.ui.bluetooth
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.jakewharton.rxbinding4.swiperefreshlayout.refreshes
 import com.krzysztofkocot.imagesearcher.ENABLE_BLUETOOTH_REQUEST_CODE
 import com.krzysztofkocot.imagesearcher.R
+import com.krzysztofkocot.imagesearcher.data.bluetooth.BluetoothDeviceDomain
 import com.krzysztofkocot.imagesearcher.databinding.FragmentBluetoothDevicesBinding
+import com.krzysztofkocot.imagesearcher.subscribe
+import com.krzysztofkocot.imagesearcher.ui.utils.log
+import com.krzysztofkocot.imagesearcher.viewmodel.PixbayViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BluetoothDevicesFragment : Fragment(R.layout.fragment_bluetooth_devices) {
+class BluetoothDevicesFragment : Fragment(R.layout.fragment_bluetooth_devices),
+    BluetoothDevicesAdapter.OnItemClickListener {
+
+    private val viewModel by viewModels<PixbayViewModel>()
 
     private var _binding: FragmentBluetoothDevicesBinding? = null
     private val binding get() = _binding!!
 
     @Inject
     lateinit var recyclerAdapter: BluetoothDevicesAdapter
-
-    private var _bluetoothAdapter: BluetoothAdapter? = null
-
-    private lateinit var _bluetoothOnOffReceiver: BluetoothOnOffReceiver
-
-    private val _bluetoothDiscoverReceiver = BluetoothDiscoverReceiver()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,7 +39,7 @@ class BluetoothDevicesFragment : Fragment(R.layout.fragment_bluetooth_devices) {
 
         setupView(view)
 
-        setupReceivers()
+        observeViewModel()
     }
 
     private fun setupView(view: View) {
@@ -52,79 +52,95 @@ class BluetoothDevicesFragment : Fragment(R.layout.fragment_bluetooth_devices) {
             }
             swipeContainer.refreshes()
                 .subscribe {
-                    discover(_bluetoothAdapter!!)
+                    recyclerAdapter.apply {
+                        submitList(null)
+                        notifyDataSetChanged()
+                    }
+                    viewModel.refresh()
                 }
             progressBar.isVisible = true
         }
+
+        recyclerAdapter.setOnItemClickListener(this)
     }
 
-    private fun setupBluetooth() {
-        _bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        checkBTPermissions(requireActivity())
-
-        _bluetoothAdapter.let {
-            if (it == null) {
-                binding.apply {
-                    progressBar.isVisible = false
-                    textViewNoBluetooth.isVisible = true
-                }
+    private fun setupBluetooth() = viewModel.bluetoothAdapter.subscribe(viewLifecycleOwner) {
+        if (it == null) {
+            binding.apply {
+                progressBar.isVisible = false
+                textViewNoBluetooth.isVisible = true
+            }
+        } else {
+            checkBTPermissions(requireActivity())
+            if (!it.isEnabled) {
+                Log.d("KK", "enableDisableBT: enabling BT.")
+                val enableBTIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivityForResult(enableBTIntent, ENABLE_BLUETOOTH_REQUEST_CODE)
             } else {
-                if (!it.isEnabled) {
-                    Log.d("KK", "enableDisableBT: enabling BT.")
-                    val enableBTIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                    startActivityForResult(enableBTIntent, ENABLE_BLUETOOTH_REQUEST_CODE)
-                } else {
-                    recyclerAdapter.submitList(null)
-                    discover(_bluetoothAdapter!!)
+                recyclerAdapter.apply {
+                    submitList(null)
+                    recyclerAdapter.notifyDataSetChanged()
                 }
+                discover(it)
             }
         }
     }
 
-    private fun setupReceivers() {
-        _bluetoothOnOffReceiver = BluetoothOnOffReceiver()
-        val onOffFilter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
-        activity?.registerReceiver(_bluetoothOnOffReceiver, onOffFilter)
-
-        val discoverDevicesFilter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-        activity?.registerReceiver(_bluetoothDiscoverReceiver, discoverDevicesFilter)
-        _bluetoothOnOffReceiver.onStateOn = {
-            recyclerAdapter.submitList(null)
-            discover(_bluetoothAdapter!!)
+    private fun observeViewModel() = viewModel.apply {
+        setupReceivers()
+        broadcastReceivers.subscribe(viewLifecycleOwner) { receivers ->
+            receivers.forEach {
+                activity?.registerReceiver(it.key, it.value)
+            }
         }
+        bluetoothOn.subscribe(viewLifecycleOwner) {
+            recyclerAdapter.apply {
+                submitList(null)
+                notifyDataSetChanged()
+            }
+        }
+        devices.subscribe(viewLifecycleOwner) {
+            recyclerAdapter.apply {
+                submitList(it)
+                notifyDataSetChanged()
+            }
+            binding.apply {
+                progressBar.isVisible = false
+                swipeContainer.isRefreshing = false
+            }
+        }
+        deviceBonding.subscribe(viewLifecycleOwner) {
+            binding.progressBarBonding.isVisible = it
+        }
+    }
 
-        _bluetoothDiscoverReceiver.devicesS
-            .doOnError {
-                Log.d("KK", "error", it)
-            }
-            .subscribe {
-                Log.d("KK", "subscribed - $it")
-                recyclerAdapter.submitList(it.distinct())
-                binding.apply {
-                    progressBar.isVisible = false
-                    swipeContainer.isRefreshing = false
-                }
-            }
+
+    override fun onItemClick(device: BluetoothDeviceDomain) {
+        log("create bond")
+        viewModel.bondDevice(device.device)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        log("onDestroy")
+        recyclerAdapter.submitList(null)
         _binding = null
-        _bluetoothAdapter?.disable()
-        activity?.apply {
-            unregisterReceiver(_bluetoothDiscoverReceiver)
-            unregisterReceiver(_bluetoothOnOffReceiver)
+        viewModel.broadcastReceivers.value?.forEach {
+            activity?.unregisterReceiver(it.key)
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ENABLE_BLUETOOTH_REQUEST_CODE) {
             when (resultCode) {
-                Activity.RESULT_OK -> { }
+                Activity.RESULT_OK -> {
+                }
                 Activity.RESULT_CANCELED -> {
-                    recyclerAdapter.submitList(null)
+                    recyclerAdapter.apply {
+                        submitList(null)
+                        notifyDataSetChanged()
+                    }
                     binding.apply {
                         progressBar.isVisible = false
                         textViewNoBluetooth.isVisible = true
