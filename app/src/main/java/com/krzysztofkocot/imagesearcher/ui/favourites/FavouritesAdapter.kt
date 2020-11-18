@@ -12,8 +12,10 @@ import com.krzysztofkocot.imagesearcher.R
 import com.krzysztofkocot.imagesearcher.data.local.PixbayDBItem
 import com.krzysztofkocot.imagesearcher.databinding.ItemPixbayPhotoBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button
+import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button_bluetooth
+import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button_favourite
 import kotlinx.android.synthetic.main.item_pixbay_photo.view.image_view_main_item
+import kotlinx.android.synthetic.main.item_pixbay_photo.view.text_view_user_name
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -36,7 +38,8 @@ class FavouritesAdapter @Inject constructor() :
     }
 
     interface OnItemClickListener {
-        fun onFloatingBtnClick(photo: PixbayDBItem, drawable: Drawable)
+        fun onAddFavouriteClick(photo: PixbayDBItem, drawable: Drawable)
+        fun onBluetoothClick()
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -48,13 +51,17 @@ class FavouritesAdapter @Inject constructor() :
 
         init {
             with(binding.root) {
-                floating_button.setOnClickListener { view ->
+                floating_button_favourite.setOnClickListener { view ->
                     getCurrentItem()?.let {
                         if (view is FloatingActionButton) {
                             val drawable = image_view_main_item.drawable
-                            listener?.onFloatingBtnClick(it, drawable)
+                            listener?.onAddFavouriteClick(it, drawable)
                         }
                     }
+                    view.jumpAnimate()
+                }
+                floating_button_bluetooth.setOnClickListener { view ->
+                    listener?.onBluetoothClick()
                     view.jumpAnimate()
                 }
             }
@@ -66,16 +73,16 @@ class FavouritesAdapter @Inject constructor() :
         }
 
         fun bind(pixbayPhoto: PixbayDBItem) {
-            binding.apply {
+            binding.root.apply {
                 Glide.with(itemView)
                     .load(pixbayPhoto.webFormatUrl)
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_error)
-                    .into(imageViewMainItem)
+                    .into(image_view_main_item)
 
-                textViewUserName.text = pixbayPhoto.user
-                floatingButton.setImageResource(R.drawable.ic_save)
+                text_view_user_name.text = pixbayPhoto.user
+                floating_button_favourite.setImageResource(R.drawable.ic_save)
             }
         }
     }

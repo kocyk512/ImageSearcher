@@ -2,6 +2,7 @@ package com.krzysztofkocot.imagesearcher.ui.gallery
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,8 +13,10 @@ import com.krzysztofkocot.imagesearcher.R
 import com.krzysztofkocot.imagesearcher.data.remote.PixbayPhoto
 import com.krzysztofkocot.imagesearcher.databinding.ItemPixbayPhotoBinding
 import com.krzysztofkocot.imagesearcher.ui.favourites.jumpAnimate
-import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button
+import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button_bluetooth
+import kotlinx.android.synthetic.main.item_pixbay_photo.view.floating_button_favourite
 import kotlinx.android.synthetic.main.item_pixbay_photo.view.image_view_main_item
+import kotlinx.android.synthetic.main.item_pixbay_photo.view.text_view_user_name
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -69,7 +72,7 @@ class PixbayPhotoAdapter @Inject constructor() :
                 image_view_main_item.setOnClickListener {
                     getCurrentItem()?.let { listener?.onItemClick(it) }
                 }
-                floating_button.setOnClickListener { view ->
+                floating_button_favourite.setOnClickListener { view ->
                     getCurrentItem()?.let {
                         listener?.onFavouriteClick(it)
                     }
@@ -84,25 +87,26 @@ class PixbayPhotoAdapter @Inject constructor() :
         }
 
         fun bind(pixbayPhoto: PixbayPhoto) {
-            binding.apply {
+            binding.root.apply {
                 Glide.with(itemView)
                     .load(pixbayPhoto.webformatURL)
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_error)
-                    .into(imageViewMainItem)
+                    .into(image_view_main_item)
 
                 Glide.with(itemView)
                     .load(pixbayPhoto.userImageURL)
                     .circleCrop()
                     .error(R.drawable.ic_user)
-                    .into(UserGlideTarget(textViewUserName))
+                    .into(UserGlideTarget(text_view_user_name))
 
-                textViewUserName.text = pixbayPhoto.user
-                floatingButton.setImageResource(
+                text_view_user_name.text = pixbayPhoto.user
+                floating_button_favourite.setImageResource(
                     if (favouritePhotosIds.contains(pixbayPhoto.id)) R.drawable.ic_favorite_filled
                     else R.drawable.ic_favorite_border
                 )
+                floating_button_bluetooth.isVisible = false
             }
         }
     }

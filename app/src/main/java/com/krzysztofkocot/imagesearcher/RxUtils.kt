@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.jakewharton.rxrelay3.BehaviorRelay
+import com.jakewharton.rxrelay3.Relay
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -21,3 +23,9 @@ fun <T> Observable<T>.subscribeAndroid(call: (T) -> Unit): Disposable =
                 Log.e("KK", it.message.toString())
             }
         )
+
+infix fun <T> Relay<T>.put(value: T) { accept(value) }
+
+data class Optional<out T>(val value: T?)
+
+val <T> T?.optional get() = Optional(this)

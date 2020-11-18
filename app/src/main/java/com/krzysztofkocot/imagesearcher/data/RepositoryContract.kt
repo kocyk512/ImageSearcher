@@ -17,4 +17,8 @@ interface RepositoryContract {
     fun observeAllPhotos(): LiveData<List<PixbayDBItem>>
 
     fun containsItem(id: Int): Single<PixbayDBItem>
+
+    fun bluetoothClick()
+
+    fun setupBluetooth()
 }

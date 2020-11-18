@@ -1,5 +1,6 @@
 package com.krzysztofkocot.imagesearcher.di
 
+import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import androidx.room.Room
 import com.krzysztofkocot.imagesearcher.DATABASE_NAME
@@ -8,6 +9,7 @@ import com.krzysztofkocot.imagesearcher.data.PixbayRepository
 import com.krzysztofkocot.imagesearcher.data.RepositoryContract
 import com.krzysztofkocot.imagesearcher.data.local.PixbayDao
 import com.krzysztofkocot.imagesearcher.data.local.PixbayDatabase
+import com.krzysztofkocot.imagesearcher.ui.bluetooth.BluetoothDevicesAdapter
 import com.krzysztofkocot.imagesearcher.ui.gallery.PixbayPhotoAdapter
 import com.krzysztofkocot.imagesearcher.ui.favourites.FavouritesAdapter
 import dagger.Module
@@ -75,4 +77,12 @@ object AppModule {
         api: PixbayApi,
         dao: PixbayDao
     ) = PixbayRepository(api, dao) as RepositoryContract
+
+    @Singleton
+    @Provides
+    fun provideBluetoothAdapter(): BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+
+    @Provides
+    @Singleton
+    fun provideBluetoothDevicesAdapter(): BluetoothDevicesAdapter = BluetoothDevicesAdapter()
 }

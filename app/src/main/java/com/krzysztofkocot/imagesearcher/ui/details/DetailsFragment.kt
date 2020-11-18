@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -12,9 +13,12 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.jakewharton.rxbinding4.view.clicks
 import com.krzysztofkocot.imagesearcher.R
 import com.krzysztofkocot.imagesearcher.data.remote.toDescription
 import com.krzysztofkocot.imagesearcher.databinding.FragmentDetailsBinding
+import com.krzysztofkocot.imagesearcher.ui.gallery.GalleryFragmentDirections
+import kotlinx.android.synthetic.main.fragment_details.floating_button
 
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
@@ -67,6 +71,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             textViewTags.text = photo.tags
             textViewUser.text = photo.user
             textViewDescription.text = photo.toDescription()
+            floatingButton.clicks()
+                .subscribe {
+                    val action =
+                        DetailsFragmentDirections.actionDetailsFragmentToBluetoothDevicesFragment()
+                    findNavController().navigate(action)
+                }
         }
     }
 }
