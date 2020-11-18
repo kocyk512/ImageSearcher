@@ -18,4 +18,4 @@ Used:
 - MotionLayout
 - View binding
 - custom gradle file
-- Bluetooth - discover and pair (transfering files planned)
+- Bluetooth - discover and pair (transfering files planned) on develop branch
