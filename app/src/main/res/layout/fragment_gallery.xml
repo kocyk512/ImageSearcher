@@ -26,18 +26,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/button_retry"
+        android:layout_marginBottom="8dp"
         android:layout_centerHorizontal="true"
         android:text="@string/results_could_not_be_loaded"
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_retry"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/retry"
         android:visibility="gone"
+        app:icon="@drawable/ic_refresh"
         tools:visibility="visible" />
 
     <TextView
